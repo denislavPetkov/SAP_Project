@@ -1,0 +1,42 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ClientsManager</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div align="center" class="container my-2">
+    <h1>ClientsTable</h1>
+</div>
+<div align="right" class="container my-2">
+    <a th:href = "@{/home}" class="btn btn-info btn-sm mb-3">Go Back</a>
+    <a th:href = "@{/clients/addToClientsForm}" class="btn btn-primary btn-sm mb-3"> Add a new Client</a>
+    <table border = "1" class="table table-hover">
+        <thead class="thread-dark">
+        <tr>
+            <th>Client ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th> Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${listClients}" style="cursor: pointer">
+            <td th:text="${client.id}"></td>
+            <td th:text="${client.name}"></td>
+            <td th:text="${client.address}"></td>
+            <td th:text="${client.email}"></td>
+            <td> <a th:href="@{/clients/showUpdateForm(id=${client.id})}" class="btn btn-secondary">Edit</a>
+                <a th:href="@{/clients/deleteClient(id=${client.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>

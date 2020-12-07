@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $("#dddd").change(function (event) {
+
+            var productID = $(this).val();
+
+            if(productID){
+            $.ajax({
+            type: 'POST',
+            url: 'new_sales.html' ,
+            data: 'stock.id=' + productID ,
+            success:function(html){
+                      $('#kkk').html(html);
+                 }
+            }
+            }else{
+            $('#kkk').html('<option value="">Select productID first</option>');
+            }
+        });
+    });
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h1>Add a New Sale</h1>
+
+        <h7>Stock ID</h7>
+        <select id="dddd" th:field="*{stockId}" required >
+            <option value="">Choose...</option>
+        </select><hr>
+
+        <h7>Quantity</h7>
+        <select id="kkk">
+
+        </select><hr>
+
+        <button type="submit" class="btn btn-info col-2"> Insert </button>
+    </form>
+    <a th:href = "@{/sales}"> Go Back</a>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Sale</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <h1>Update Sale</h1>
+
+    <form action="#" th:action="@{/sales/saveSale}" th:object ="${sale}"  method="POST">
+        <input type="hidden" th:field="*{id}"/><hr>
+
+        <h7>Representative ID</h7>
+        <select th:field="*{representative.id}" required >
+            <option value="" selected disabled hidden></option>
+            <option  th:each="representative: ${representative}" th:value="${representative.id}" th:text="${representative.id}" ></option>
+        </select><hr>
+
+        <h7>Date</h7>
+        <input type="date" th:field="*{date}" class="form-control mb-4 col-4" required><hr>
+
+        <h7>Client ID</h7>
+        <select th:field="*{client.id}" required >
+            <option value="" selected disabled hidden></option>
+            <option  th:each="client: ${client}" th:value="${client.id}" th:text="${client.id}" ></option>
+        </select><hr>
+
+        <h7>Stock ID</h7>
+        <input type="text" th:field="*{stock.id}" readonly ><hr>
+
+        <h7>Quantity</h7>
+        <select th:field="*{quantity}" required >
+            <option value="1" selected disabled hidden></option>
+            <option  th:each="qty: ${qty}" th:value="${qty}" th:text="${qty}" ></option>
+        </select><hr>
+
+        <button type="submit" class="btn btn-info col-2">Update</button>
+    </form>
+
+    <hr>
+    <a th:href = "@{/sales}"> Back to Stock List </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Representative</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <h1>Update Representative's information</h1>
+
+    <form action="#" th:action="@{/representatives/saveRepresentative}" th:object ="${representative}"  method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <h7>name</h7>
+        <input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4 col-4" required>
+        <h7>email</h7>
+        <input type="email" th:field="*{email}" placeholder="email" class="form-control mb-4 col-4" required>
+        <h7>phone</h7>
+        <input type="text" th:field="*{phone}"placeholder="phone" class="form-control mb-4 col-4" required>
+
+
+        <button type="submit" class="btn btn-info col-2">Update Information</button>
+    </form>
+
+    <hr>
+    <a th:href = "@{/representatives}"> Back to Representatives List </a>
+</div>
+</body>
+</html>

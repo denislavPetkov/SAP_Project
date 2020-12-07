@@ -1,0 +1,50 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a new sale</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <h1>Add a New Sale</h1>
+
+    <form action="#" th:action="@{/sales/saveSale}" th:object ="${sale}"  method="POST">
+
+        <h7>Representative ID</h7>
+        <select th:field="*{representative.id}" required >
+            <option value="">Choose...</option>
+            <option  th:each="representative: ${representative}" th:value="${representative.id}" th:text="${representative.id}" ></option>
+        </select><hr>
+
+        <h7>Date</h7>
+        <input type="date" th:field="*{date}" class="form-control mb-4 col-4" required><hr>
+
+        <h7>Client ID</h7>
+        <select th:field="*{client.id}" required >
+            <option value="">Choose...</option>
+            <option  th:each="client: ${client}" th:value="${client.id}" th:text="${client.id}" ></option>
+        </select><hr>
+
+        <h7>Stock ID</h7>
+        <select th:field="*{stock.id}" required >
+            <option value="">Choose...</option>
+            <option  th:each="stock: ${stock}" th:value="${stock.id}" th:text="${stock.id}" ></option>
+        </select>
+        <hr>
+
+        <h7>Quantity</h7>
+            <input type="number" min="1" th:field="*{quantity}"  class="form-control mb-4 col-4" required>
+
+        <button type="submit" class="btn btn-info col-2"> Insert </button>
+    </form>
+    <a th:href = "@{/sales}"> Go Back</a>
+
+</div>
+</body>
+</html>

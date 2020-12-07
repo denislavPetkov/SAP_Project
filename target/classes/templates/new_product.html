@@ -1,0 +1,42 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a new product</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <h1>Add a new product</h1>
+
+    <form action="#" th:action="@{/stock/saveProduct}" th:object ="${product}"  method="POST">
+        <h7>product</h7>
+        <input type="text" th:field="*{product}" placeholder="Product" class="form-control mb-4 col-4" required>
+        <h7>color</h7>
+        <input type="text" th:field="*{color}" placeholder="color" class="form-control mb-4 col-4" required>
+        <h7>size</h7><br>
+        <select th:field="*{size}" required >
+            <option value="">Choose...</option>
+            <option  value="S" >S</option>
+            <option  value="M" >M</option>
+            <option  value="L" >L</option>
+            <option  value="XL" >XL</option>
+        </select><br>
+<!--        <input type="text" th:field="*{size}"placeholder="size" class="form-control mb-4 col-4" required>-->
+        <h7>price</h7>
+        <input type="number" min="1" step="any" th:field="*{price}"  class="form-control mb-4 col-4" required>
+        <h7>quantity</h7>
+        <input type="number" min="1" step="any" th:field="*{quantity}"  class="form-control mb-4 col-4" required>
+
+        <button type="submit" class="btn btn-info col-2">Save Product</button>
+    </form>
+    <a th:href = "@{/stock}"> Go Back</a>
+
+</div>
+</body>
+</html>
