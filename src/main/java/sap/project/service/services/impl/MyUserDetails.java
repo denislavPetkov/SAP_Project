@@ -23,7 +23,6 @@ public class MyUserDetails implements UserDetails {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
         return Arrays.asList(authority);
     }
-    public String getRole() { return user.getRole();}
 
     @Override
     public String getPassword() {

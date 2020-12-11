@@ -54,10 +54,6 @@ public class StockController extends BaseController{
         return super.redirect("/stock");
   }
 
-
-
-
-
   @GetMapping("/showUpdateForm")
     public ModelAndView showUpdateForm(long id, Model model) {
 
