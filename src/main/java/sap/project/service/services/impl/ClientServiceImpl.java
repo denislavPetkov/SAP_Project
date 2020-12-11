@@ -47,4 +47,14 @@ public class ClientServiceImpl implements ClientService {
     public List<String> getClientsEmails() {
         return this.clientRepository.getEmails();
     }
+
+    @Override
+    public List<Client> getClientsByRepId(long id) {
+        return this.clientRepository.getClientsByRepId(id);
+    }
+
+    @Override
+    public void updateClientRepIdById(long repId, Long id) {
+        this.clientRepository.updateClientRepIdById(id,repId);
+    }
 }

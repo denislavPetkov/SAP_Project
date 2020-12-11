@@ -16,10 +16,14 @@
 <div align="right" class="container my-2">
     <a th:href = "@{/home}" class="btn btn-info btn-sm mb-3">Go Back</a>
     <a  th:href = "@{/representatives/addToRepresentativeForm}" class="btn btn-primary btn-sm mb-3"> Add a representative</a>
+    <div th:if="${error}" align="center">
+        <p style="color:red">CAN NOT DELETE REPRESENTATIVE</p>
+    </div>
     <table border = "1" class="table table-hover">
         <thead class="thread-dark">
         <tr>
             <th>Representative ID</th>
+            <th>Username</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -29,6 +33,7 @@
         <tbody>
         <tr th:each="representative : ${listRepresentatives}" style="cursor: pointer">
             <td th:text="${representative.id}"></td>
+            <td th:text="${representative.user.username}"></td>
             <td th:text="${representative.name}"></td>
             <td th:text="${representative.email}"></td>
             <td th:text="${representative.phone}"></td>

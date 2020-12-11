@@ -20,8 +20,8 @@
         <input type="text" th:field="*{name}"  class="form-control mb-4 col-4" required>
         <h7>address</h7>
         <input type="text" th:field="*{address}"  class="form-control mb-4 col-4" required>
-        <h7>email</h7>
-        <input type="email" th:field="*{email}"  class="form-control mb-4 col-4" required>
+        <h7>your gmail or abv email</h7>
+        <input type="email" th:field="*{email}" placeholder="email" pattern=".+@gmail.com|.+@abv.bg" class="form-control mb-4 col-4" required>
 
         <button type="submit" class="btn btn-info col-2">Update</button>
     </form>

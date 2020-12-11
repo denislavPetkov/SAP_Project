@@ -12,6 +12,7 @@ public interface SalesService {
     List<Long> getRepresentativeIds();
     List<Long> getClientIds();
     List<Long> getStockIds();
-
+    List<Sales> getSalesByRepId(long repId);
+    void updateSalesRepIdById(long id, long repId);
 
 }

@@ -23,21 +23,21 @@
         <thead class="thread-dark">
         <tr>
             <th>Sale ID</th>
-            <th>Representative ID</th>
+            <th>Representative</th>
             <th>Date</th>
-            <th>Client ID</th>
-            <th>Product ID</th>
+            <th>Client</th>
+            <th>Product</th>
             <th>Quantity</th>
-            <th> Actions</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="sales : ${listSales}" style="cursor: pointer">
-            <td th:text="${sales.id}"></td>
-            <td th:text="${sales.representative.getId()}"></td>
+            <td th:text="${sales.id}" ></td>
+            <td th:text="${sales.representative.name}"></td>
             <td th:text="${sales.date}"></td>
-            <td th:text="${sales.client.getId()}"></td>
-            <td th:text="${sales.stock.getId()}"></td>
+            <td th:text="${sales.client.name}"></td>
+            <td th:text="${sales.stock.color}+' '+${sales.stock.product}+' {'+${sales.stock.size}+'}'"></td>
             <td th:text="${sales.quantity}"></td>
 
             <td> <a th:href="@{/sales/showUpdateForm(id=${sales.id})}" class="btn btn-secondary">Edit</a>

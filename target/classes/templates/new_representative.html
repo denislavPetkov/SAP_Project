@@ -16,11 +16,14 @@
 
     <form action="#" th:action="@{/representatives/saveRepresentative}" th:object ="${representative}"  method="POST">
         <h7>name</h7>
-        <input type="text" th:field="*{name}" placeholder="name" class="form-control mb-4 col-4" required>
-        <h7>email</h7>
-        <input type="email" th:field="*{email}" placeholder="email" class="form-control mb-4 col-4" required>
-        <h7>phone</h7>
-        <input type="text" th:field="*{phone}"placeholder="phone" class="form-control mb-4 col-4" required>
+        <input type="text" th:field="*{name}" placeholder="first and last name" class="form-control mb-4 col-4" required>
+        <h7>password</h7>
+        <input type="password" th:field="*{password}" placeholder="password" class="form-control mb-4 col-4" required>
+        <h7>your gmail or abv email</h7><div th:if="${email}"><p style="color:red">Email Already in Use</p></div>
+        <input type="email" th:field="*{email}" placeholder="email" pattern=".+@gmail.com|.+@abv.bg" class="form-control mb-4 col-4" required>
+        <h7>phone</h7><div th:if="${phone}"><p style="color:red">Phone Number Already in Use</p></div>
+        <small>Format: 012-345-6789</small>
+        <input type="tel"  th:field="*{phone}"placeholder="phone number" pattern="^[0][0-9]{2}-[0-9]{3}-[0-9]{4}" maxlength="12" class="form-control mb-4 col-4" required>
 
         <button type="submit" class="btn btn-info col-2">Save Representative</button>
     </form>

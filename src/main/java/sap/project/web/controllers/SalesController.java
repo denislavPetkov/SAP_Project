@@ -1,8 +1,7 @@
 package sap.project.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import sap.project.data.enteties.Client;
-import sap.project.data.enteties.Representative;
 import sap.project.data.enteties.Sales;
 import sap.project.data.enteties.Stock;
-import sap.project.service.ClientService;
-import sap.project.service.RepresentativeService;
-import sap.project.service.SalesService;
-import sap.project.service.StockService;
+import sap.project.service.*;
+import sap.project.service.services.impl.MyUserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +34,21 @@ public class SalesController extends BaseController{
     private StockService stockService;
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private UserService userService;
 
-    private boolean update = false;
+    @Autowired
+    private EmailSender emailSender;
+
     private int oldQty = 0;
+    private long representativeId = 0;
+    private boolean error = false;
 
     @GetMapping
-    public ModelAndView sales(Model model) {
-            model.addAttribute("listSales", salesService.getAllSales());
+    public ModelAndView sales(@AuthenticationPrincipal MyUserDetails user,  Model model) {
+
+            representativeId = this.representativeService.getRepIdByUserId(this.userService.getIdByUsername(user.getUsername()));
+            model.addAttribute("listSales", salesService.getSalesByRepId(representativeId));
+
         return super.view("sales");
     }
 
@@ -59,88 +62,37 @@ public class SalesController extends BaseController{
     public ModelAndView addToSalesForm(Model model)  {
         Sales sale = new Sales();
 
-        List<Representative> representativeList = representativeService.getAllRepresentatives();
         List<Stock> stocksList = stockService.getStock();
-        List<Client> clientList = clientService.getAllClients();
+        List<Client> clientList = clientService.getClientsByRepId(representativeId);
 
 
         model.addAttribute("sale", sale);
-        model.addAttribute("representative", representativeList);
         model.addAttribute("stock", stocksList);
         model.addAttribute("client", clientList);
+        model.addAttribute("error", error);
+
+        error = false;
 
         return super.view("new_sale");
-    }
-
-
-    @GetMapping("/addToSalesForm/error")
-    public ModelAndView addToSalesFormError(Model model)  {
-        Sales sale = new Sales();
-
-        List<Representative> representativeList = representativeService.getAllRepresentatives();
-        List<Stock> stocksList = stockService.getStock();
-        List<Client> clientList = clientService.getAllClients();
-
-
-        model.addAttribute("sale", sale);
-        model.addAttribute("representative", representativeList);
-        model.addAttribute("stock", stocksList);
-        model.addAttribute("client", clientList);
-
-        return super.view("new_sale_error");
     }
 
 
     @PostMapping("/saveSale")
     public ModelAndView saveSale(Sales sale) {
 
-        if(update){
-            update = false;
-            if (!stockService.updateQuantity(sale.getStock().getId(), (sale.getQuantity() - oldQty))) {
-                return super.redirect("/sales/showUpdateForm/error");
-
-            } else {
-                salesService.saveSale(sale);
-                //
-                List<Long> IDs = stockService.getIdLimitedQuantity();
-                for(Long id: IDs){
-                    int quantity = stockService.getQuantityById(id);
-                    if( quantity <= 6 && quantity > 0)
-                        sendEmail(stockService.getDetailsById(id));
-                }
-                return super.redirect("/sales");
-            }
+        if(!stockService.updateQuantity(sale.getStock().getId(), (sale.getQuantity() - oldQty))){
+            oldQty = 0;
+            error = true;
+            return super.redirect("/sales/addToSalesForm");
         }
         else {
-            if (!stockService.updateQuantity(sale.getStock().getId(), sale.getQuantity())) {
-                return super.redirect("/sales/addToSalesForm/error");
-
-            } else {
-                salesService.saveSale(sale);
-                //
-                List<Long> IDs = stockService.getIdLimitedQuantity();
-                for(Long id: IDs){
-                    int quantity = stockService.getQuantityById(id);
-                    if( quantity <= 6 && quantity > 0)
-                    sendEmail(stockService.getDetailsById(id));
-                }
+            salesService.saveSale(sale);
+                salesService.updateSalesRepIdById(sale.getId(), representativeId);
+                emailSender.sendEmail();
                 return super.redirect("/sales");
-            }
         }
     }
 
-    private void sendEmail(String details) {
-
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(clientService.getClientsEmails().toArray(new String[0]));
-
-        String[] detailsHolder = details.split(",");
-
-        msg.setSubject("Limited Quantity");
-        msg.setText("Hello! Product {"+ detailsHolder[0] + "} in size {"+ detailsHolder[2] + "} and color {"+ detailsHolder[1] + "} has limited quantity! You better hurry if you want to add it to your collection!");
-
-        javaMailSender.send(msg);
-    }
 
 
     @GetMapping("/showUpdateForm")
@@ -148,11 +100,9 @@ public class SalesController extends BaseController{
 
         Sales sale = salesService.getSaleByID(id);
 
-        List<Representative> representativeList = representativeService.getAllRepresentatives();
         List<Stock> stocksList = stockService.getStock();
-        List<Client> clientList = clientService.getAllClients();
+        List<Client> clientList = clientService.getClientsByRepId(representativeId);
 
-        update = true;
         oldQty = sale.getQuantity();
 
         int maxQ = stockService.getQuantityById(sale.getStock().getId()) + oldQty;
@@ -162,10 +112,8 @@ public class SalesController extends BaseController{
             qty.add(i);
         }
 
-
         model.addAttribute("sale", sale);
         model.addAttribute("qty", qty);
-        model.addAttribute("representative", representativeList);
         model.addAttribute("stock", stocksList);
         model.addAttribute("client", clientList);
 

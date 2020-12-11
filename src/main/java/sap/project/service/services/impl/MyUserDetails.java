@@ -8,6 +8,7 @@ import sap.project.data.enteties.User;
 import java.util.Arrays;
 import java.util.Collection;
 
+
 public class MyUserDetails implements UserDetails {
 
     private User user;
@@ -22,6 +23,7 @@ public class MyUserDetails implements UserDetails {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
         return Arrays.asList(authority);
     }
+    public String getRole() { return user.getRole();}
 
     @Override
     public String getPassword() {

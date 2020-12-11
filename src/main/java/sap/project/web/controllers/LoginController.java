@@ -34,7 +34,7 @@ public class LoginController extends BaseController{
         if(admin){
            return super.redirect("homeAdmin");
         }
-        if(user){
+        else if(user){
            return super.redirect("homeUser");
         }
        return null;

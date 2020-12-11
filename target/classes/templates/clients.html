@@ -16,6 +16,9 @@
 <div align="right" class="container my-2">
     <a th:href = "@{/home}" class="btn btn-info btn-sm mb-3">Go Back</a>
     <a th:href = "@{/clients/addToClientsForm}" class="btn btn-primary btn-sm mb-3"> Add a new Client</a>
+    <div th:if=${error} align="center">
+        <p style="color:red">CAN NOT DELETE CLIENT</p>
+    </div>
     <table border = "1" class="table table-hover">
         <thead class="thread-dark">
         <tr>

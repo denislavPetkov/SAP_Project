@@ -16,30 +16,25 @@
 
     <form action="#" th:action="@{/sales/saveSale}" th:object ="${sale}"  method="POST">
 
-        <h7>Representative ID</h7>
-        <select th:field="*{representative.id}" required >
-            <option value="">Choose...</option>
-            <option  th:each="representative: ${representative}" th:value="${representative.id}" th:text="${representative.id}" ></option>
-        </select><hr>
-
         <h7>Date</h7>
         <input type="date" th:field="*{date}" class="form-control mb-4 col-4" required><hr>
 
-        <h7>Client ID</h7>
+        <h7>Client</h7>
         <select th:field="*{client.id}" required >
             <option value="">Choose...</option>
-            <option  th:each="client: ${client}" th:value="${client.id}" th:text="${client.id}" ></option>
+            <option  th:each="client: ${client}" th:value="${client.id}" th:text="${client.name}" ></option>
         </select><hr>
 
-        <h7>Stock ID</h7>
+        <h7>Product</h7>
         <select th:field="*{stock.id}" required >
             <option value="">Choose...</option>
-            <option  th:each="stock: ${stock}" th:value="${stock.id}" th:text="${stock.id}" ></option>
+            <option  th:each="stock: ${stock}" th:value="${stock.id}" th:text="${stock.color}+' '+${stock.product}+' {'+${stock.size}+'}' +'('+${stock.quantity}+')'" ></option>
         </select>
         <hr>
 
         <h7>Quantity</h7>
             <input type="number" min="1" th:field="*{quantity}"  class="form-control mb-4 col-4" required>
+        <div th:if="${error}"><p style="color:red">THE QUANTITY YOU ENTERED WAS NOT VALID!</p></div>
 
         <button type="submit" class="btn btn-info col-2"> Insert </button>
     </form>

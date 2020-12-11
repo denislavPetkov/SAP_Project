@@ -16,7 +16,7 @@
 
     <form action="#" th:action="@{/stock/saveProduct}" th:object ="${product}"  method="POST">
         <h7>product</h7>
-        <input type="text" th:field="*{product}" placeholder="Product" class="form-control mb-4 col-4" required>
+        <input type="text" th:field="*{product}" placeholder="product" class="form-control mb-4 col-4" required>
         <h7>color</h7>
         <input type="text" th:field="*{color}" placeholder="color" class="form-control mb-4 col-4" required>
         <h7>size</h7><br>
@@ -26,7 +26,7 @@
             <option  value="M" >M</option>
             <option  value="L" >L</option>
             <option  value="XL" >XL</option>
-        </select><br>
+        </select><br><br>
 <!--        <input type="text" th:field="*{size}"placeholder="size" class="form-control mb-4 col-4" required>-->
         <h7>price</h7>
         <input type="number" min="1" step="any" th:field="*{price}"  class="form-control mb-4 col-4" required>

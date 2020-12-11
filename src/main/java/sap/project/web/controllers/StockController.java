@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import sap.project.data.enteties.Stock;
 import sap.project.service.SalesService;
 import sap.project.service.StockService;
+import sap.project.service.TwitterService;
+import twitter4j.TwitterException;
 
 @Controller
 @RequestMapping("/stock")
@@ -21,9 +23,16 @@ public class StockController extends BaseController{
     @Autowired
     private SalesService salesService;
 
+    @Autowired
+    private TwitterService twitterService;
+
+    private boolean error = false;
+
     @GetMapping
     public ModelAndView sales(Model model) {
         model.addAttribute("listStock", stockService.getStock());
+        model.addAttribute("error", error);
+        error = false;
         return super.view("stock");
     }
 
@@ -37,10 +46,17 @@ public class StockController extends BaseController{
   }
 
   @PostMapping("/saveProduct")
-  public ModelAndView saveProduct(Stock stock) {
+  public ModelAndView saveProduct(Stock stock) throws TwitterException {
+
+        twitterService.createTweet("A new product is in stock! You might want to check it out!" + "\nNew " + stock.getProduct() + " in "+ stock.getColor() + " only for "+ stock.getPrice()+ " BGN!");
+
         stockService.saveProduct(stock);
         return super.redirect("/stock");
   }
+
+
+
+
 
   @GetMapping("/showUpdateForm")
     public ModelAndView showUpdateForm(long id, Model model) {
@@ -55,18 +71,12 @@ public class StockController extends BaseController{
   public ModelAndView deleteProduct(long id) {
 
       if(this.salesService.getStockIds().contains(id)){
-          return super.redirect("/stock/error");
+          error = true;
       }
       else {
           this.stockService.deleteProductById(id);
-          return super.redirect("/stock");
       }
+      return super.redirect("/stock");
   }
-
-    @GetMapping("/error")
-    public ModelAndView deleteProductError(Model model) {
-        model.addAttribute("listStock", stockService.getStock());
-        return super.view("stock_error");
-    }
 
 }

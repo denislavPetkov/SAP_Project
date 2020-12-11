@@ -11,4 +11,8 @@ public interface ClientService {
     void deleteClientById(long id);
 
     List<String> getClientsEmails();
+
+    List<Client> getClientsByRepId(long id);
+
+    void updateClientRepIdById(long repId, Long id);
 }

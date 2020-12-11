@@ -10,4 +10,11 @@ public interface RepresentativeService {
     Representative getRepresentativeByID(long id);
     void deleteRepresentativeById(long id);
 
+    void updateUserId(long id, long userId);
+
+    long getRepIdByUserId(long id);
+
+    boolean isEmailInUse(String email, long id);
+
+    boolean isPhoneInUse(String phone, long id);
 }

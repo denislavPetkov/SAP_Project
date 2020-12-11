@@ -20,20 +20,20 @@
         <thead >
         <tr>
             <th>Sale ID</th>
-            <th>Representative ID</th>
+            <th>Representative</th>
             <th>Date</th>
-            <th>Client ID</th>
-            <th>Product ID</th>
+            <th>Client</th>
+            <th>Product</th>
             <th>Quantity</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="sales : ${listSales}" >
             <td th:text="${sales.id}"></td>
-            <td th:text="${sales.representative.getId()}"></td>
+            <td th:text="${sales.representative.name}"></td>
             <td th:text="${sales.date}"></td>
-            <td th:text="${sales.client.getId()}"></td>
-            <td th:text="${sales.stock.getId()}"></td>
+            <td th:text="${sales.client.name}"></td>
+            <td th:text="${sales.stock.product}"></td>
             <td th:text="${sales.quantity}"></td>
         </tr>
         </tbody>

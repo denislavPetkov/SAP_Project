@@ -58,5 +58,15 @@ public class SalesServiceImpl implements SalesService {
         return this.salesRepository.getStockIds();
     }
 
+    @Override
+    public List<Sales> getSalesByRepId(long repId) {
+        return this.salesRepository.getSalesByRepId(repId);
+    }
+
+    @Override
+    public void updateSalesRepIdById(long id, long repId) {
+        this.salesRepository.updateSalesRepIdById(id, repId);
+    }
+
 
 }

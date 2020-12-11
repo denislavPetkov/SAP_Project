@@ -17,23 +17,16 @@
     <form action="#" th:action="@{/sales/saveSale}" th:object ="${sale}"  method="POST">
         <input type="hidden" th:field="*{id}"/><hr>
 
-        <h7>Representative ID</h7>
-        <select th:field="*{representative.id}" required >
-            <option value="" selected disabled hidden></option>
-            <option  th:each="representative: ${representative}" th:value="${representative.id}" th:text="${representative.id}" ></option>
-        </select><hr>
-
         <h7>Date</h7>
         <input type="date" th:field="*{date}" class="form-control mb-4 col-4" required><hr>
 
-        <h7>Client ID</h7>
+        <h7>Client</h7>
         <select th:field="*{client.id}" required >
             <option value="" selected disabled hidden></option>
-            <option  th:each="client: ${client}" th:value="${client.id}" th:text="${client.id}" ></option>
+            <option  th:each="client: ${client}" th:value="${client.id}" th:text="${client.name}" ></option>
         </select><hr>
 
-        <h7>Stock ID</h7>
-        <input type="text" th:field="*{stock.id}" readonly ><hr>
+        <input type="hidden" th:field="*{stock.id}"/>
 
         <h7>Quantity</h7>
         <select th:field="*{quantity}" required >

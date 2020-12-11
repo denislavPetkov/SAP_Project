@@ -1,6 +1,7 @@
 package sap.project.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import sap.project.data.enteties.Client;
 import sap.project.service.ClientService;
+import sap.project.service.RepresentativeService;
 import sap.project.service.SalesService;
+import sap.project.service.UserService;
+import sap.project.service.services.impl.MyUserDetails;
 
 @Controller
 @RequestMapping("/clients")
@@ -21,9 +25,22 @@ public class ClientController extends BaseController {
     @Autowired
     private SalesService salesService;
 
+    @Autowired
+    private RepresentativeService representativeService;
+
+    @Autowired
+    private UserService userService;
+
+    private long representativeId = 0;
+    private boolean error = false;
+
     @GetMapping
-    public ModelAndView clients(Model model) {
-        model.addAttribute("listClients", clientService.getAllClients());
+    public ModelAndView clients(@AuthenticationPrincipal MyUserDetails user, Model model) {
+        representativeId = this.representativeService.getRepIdByUserId(this.userService.getIdByUsername(user.getUsername()));
+        model.addAttribute("listClients", clientService.getClientsByRepId(representativeId));
+        model.addAttribute("error", error);
+        error = false;
+
         return super.view("clients");
     }
 
@@ -39,6 +56,7 @@ public class ClientController extends BaseController {
     @PostMapping("/saveClient")
     public ModelAndView saveClient(Client client) {
         clientService.saveClient(client);
+        clientService.updateClientRepIdById(representativeId, client.getId());
         return super.redirect("/clients");
     }
 
@@ -55,18 +73,12 @@ public class ClientController extends BaseController {
     public ModelAndView deleteClient(long id) {
 
         if(this.salesService.getClientIds().contains(id)){
-            return super.redirect("/clients/error");
+            error = true;
         }
         else {
             this.clientService.deleteClientById(id);
-            return super.redirect("/clients");
         }
-    }
-
-    @GetMapping("/error")
-    public ModelAndView deleteClientError(Model model) {
-        model.addAttribute("listClients", clientService.getAllClients());
-        return super.view("clients_error");
+        return super.redirect("/clients");
     }
 
 }
