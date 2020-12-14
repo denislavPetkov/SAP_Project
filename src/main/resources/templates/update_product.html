@@ -20,14 +20,7 @@
         <input type="text" th:field="*{product}" placeholder="Product" class="form-control mb-4 col-4" required>
         <h7>color</h7>
         <input type="text" th:field="*{color}" placeholder="color" class="form-control mb-4 col-4" required>
-        <h7>size</h7><br>
-        <select th:field="*{size}" required >
-            <option value="">Choose...</option>
-            <option  value="S" >S</option>
-            <option  value="M" >M</option>
-            <option  value="L" >L</option>
-            <option  value="XL" >XL</option>
-        </select><br><br>
+        <input type="hidden" th:field="*{size}"/>
         <h7>price</h7>
         <input type="number" step="any" th:field="*{price}"  class="form-control mb-4 col-4" required>
         <h7>quantity</h7>

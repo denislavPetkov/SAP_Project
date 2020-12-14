@@ -27,6 +27,7 @@ public class StockController extends BaseController{
     private TwitterService twitterService;
 
     private boolean error = false;
+    private boolean updateProduct = false;
 
     @GetMapping
     public ModelAndView sales(Model model) {
@@ -38,6 +39,7 @@ public class StockController extends BaseController{
 
     @GetMapping("/addToStockForm")
   public ModelAndView addToStockForm(Model model) {
+        updateProduct = false;
         Stock stock = new Stock();
 
         model.addAttribute("product", stock);
@@ -48,7 +50,8 @@ public class StockController extends BaseController{
   @PostMapping("/saveProduct")
   public ModelAndView saveProduct(Stock stock) throws TwitterException {
 
-        twitterService.createTweet("A new product is in stock! You might want to check it out!" + "\nNew " + stock.getProduct() + " in "+ stock.getColor() + " only for "+ stock.getPrice()+ " BGN!");
+        if(!updateProduct)
+            twitterService.createTweet("A new product is in stock! You might want to check it out!" + "\nNew " + stock.getProduct() + " in " + stock.getColor() + " only for " + stock.getPrice() + " BGN!");
 
         stockService.saveProduct(stock);
         return super.redirect("/stock");
@@ -56,7 +59,7 @@ public class StockController extends BaseController{
 
   @GetMapping("/showUpdateForm")
     public ModelAndView showUpdateForm(long id, Model model) {
-
+        updateProduct = true;
         Stock stock = stockService.getProductByID(id);
 
         model.addAttribute("product", stock);

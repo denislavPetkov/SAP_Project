@@ -42,10 +42,6 @@ public class UserServiceImpl implements UserService {
             String encodedPassword = encoder.encode(representative.getPassword());
             this.userRepository.updateUserPassword(representative.getUser().getId(),encodedPassword);
         }
-
-
-        if(!representative.getUsername().isEmpty())
-        this.userRepository.updateUserUsername(representative.getUsername(), representative.getUser().getId());
     }
 
 }
