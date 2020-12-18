@@ -1,6 +1,7 @@
 package sap.project.data.enteties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +13,9 @@ public class User {
 
     @Column(unique = true)
     private String username;
+
+    @Email
+    private String email;
 
     private String password;
     private String role;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sap.project.data.enteties.Representative;
 import sap.project.data.repositories.RepresentativeRepository;
+import sap.project.data.repositories.UserRepository;
 import sap.project.service.RepresentativeService;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class RepresentativeServiceImpl implements RepresentativeService {
 
     @Autowired
     private RepresentativeRepository representativeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private Representative representative;
 
@@ -59,14 +63,14 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     @Override
     public boolean isEmailInUse(String email, long id) {
 
-        return !this.representativeRepository.getRepIdByEmail(email, id).isEmpty();
-       // return this.representativeRepository.getRepIdByEmail(email, id) != 1;
+        return !this.representativeRepository.getRepIdByEmail(email, id).isEmpty() || userRepository.getEmailFromAdminRole().contains(email);
+
     }
 
     @Override
     public boolean isPhoneInUse(String phone, long id) {
         return !this.representativeRepository.getRepIdByPhone(phone, id).isEmpty();
-       // return this.representativeRepository.getRepIdByPhone(phone) != 0;
+
     }
 
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sap.project.service.ClientService;
 import sap.project.service.EmailSender;
 import sap.project.service.StockService;
+import sap.project.service.UserService;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class EmailSenderImpl implements EmailSender {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ClientService clientService;
@@ -26,7 +30,7 @@ public class EmailSenderImpl implements EmailSender {
             List<Long> IDs = stockService.getIdLimitedQuantity();
             for(Long id: IDs){
                 int quantity = stockService.getQuantityById(id);
-                if( quantity <= 3 && quantity > 0)
+                if( quantity <= 3 && quantity >= 0)
                     send(stockService.getDetailsById(id));
             }
         }
@@ -35,12 +39,12 @@ public class EmailSenderImpl implements EmailSender {
         private void send(String details) {
 
             SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setTo(clientService.getClientsEmails().toArray(new String[0]));
+            msg.setTo(userService.getEmailFromAdminRole().toArray(new String[0]));
 
             String[] detailsHolder = details.split(",");
 
             msg.setSubject("Limited Quantity");
-            msg.setText("Hello! Product {"+ detailsHolder[0] + "} in size {"+ detailsHolder[2] + "} and color {"+ detailsHolder[1] + "} has limited quantity! You better hurry if you want to add it to your collection!");
+            msg.setText("Hello! Product {"+ detailsHolder[0] + "}" + " with ID:" + detailsHolder[1] + " has very low quantity!");
 
             javaMailSender.send(msg);
         }

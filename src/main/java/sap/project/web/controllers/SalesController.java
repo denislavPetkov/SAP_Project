@@ -88,6 +88,7 @@ public class SalesController extends BaseController{
         else {
             salesService.saveSale(sale);
                 salesService.updateSalesRepIdById(sale.getId(), representativeId);
+                salesService.updateSalesSoldForPrice(Double.parseDouble(stockService.getDetailsById(sale.getStock().getId()).split(",")[2]),sale.getId());
                 emailSender.sendEmail();
                 return super.redirect("/sales");
         }

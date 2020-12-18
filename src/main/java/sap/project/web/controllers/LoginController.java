@@ -10,10 +10,10 @@ public class LoginController extends BaseController{
     private boolean user = false;
     private boolean admin = false;
 
-    @GetMapping("/login")
-    public ModelAndView login(){
-        return super.view("login");
-    }
+//    @GetMapping("/login")
+//    public ModelAndView login(){
+//        return super.view("login");
+//    }
 
     @GetMapping("/homeUser")
     public ModelAndView homeUser() {

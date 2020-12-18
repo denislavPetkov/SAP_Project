@@ -8,14 +8,16 @@ import sap.project.data.repositories.RepresentativeRepository;
 import sap.project.data.repositories.UserRepository;
 import sap.project.service.UserService;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    RepresentativeRepository representativeRepository;
+    private RepresentativeRepository representativeRepository;
 
     private static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -43,5 +45,11 @@ public class UserServiceImpl implements UserService {
             this.userRepository.updateUserPassword(representative.getUser().getId(),encodedPassword);
         }
     }
+
+    @Override
+    public List<String> getEmailFromAdminRole() {
+        return this.userRepository.getEmailFromAdminRole();
+    }
+
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import sap.project.data.enteties.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long>{
@@ -38,6 +39,10 @@ public interface UserRepository extends CrudRepository<User, Long>{
     @Query(value = "UPDATE users SET password = :password WHERE id = :id", nativeQuery = true)
     @Transactional
     void updateUserPassword(@Param("id") long id, @Param("password") String password);
+
+    @Query(value = "SELECT email FROM users WHERE role = 'ROLE_ADMIN'", nativeQuery = true)
+    @Transactional
+    List<String> getEmailFromAdminRole();
 
 
 }

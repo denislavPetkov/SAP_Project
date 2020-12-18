@@ -33,4 +33,9 @@ public interface SalesRepository extends CrudRepository<Sales, Long> {
     @Query(value = "UPDATE sales SET representative_id = :repId WHERE id = :id", nativeQuery = true)
     @Transactional
     void updateSalesRepIdById(@Param("id") long id, @Param("repId") long repId);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE sales SET sell_price = :price WHERE id = :id", nativeQuery = true)
+    @Transactional
+    void updateSalesSoldForPrice(@Param("price") double price, @Param("id") long id);
 }

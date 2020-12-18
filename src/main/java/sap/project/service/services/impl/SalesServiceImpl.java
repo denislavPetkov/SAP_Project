@@ -68,5 +68,10 @@ public class SalesServiceImpl implements SalesService {
         this.salesRepository.updateSalesRepIdById(id, repId);
     }
 
+    @Override
+    public void updateSalesSoldForPrice(double price, long id) {
+        this.salesRepository.updateSalesSoldForPrice(price, id);
+    }
+
 
 }

@@ -14,5 +14,6 @@ public interface SalesService {
     List<Long> getStockIds();
     List<Sales> getSalesByRepId(long repId);
     void updateSalesRepIdById(long id, long repId);
+    void updateSalesSoldForPrice(double price, long id);
 
 }

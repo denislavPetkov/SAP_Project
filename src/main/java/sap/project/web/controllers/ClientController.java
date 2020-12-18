@@ -50,6 +50,7 @@ public class ClientController extends BaseController {
 
         model.addAttribute("client", client);
 
+
         return super.view("new_client");
     }
 

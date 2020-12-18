@@ -30,19 +30,30 @@ public class Sales {
     @JoinColumn(name = "stock_id")
     private Stock stock;
 
+    private double sellPrice;
+
     private int quantity;
 
     public Sales()  {
 
     }
 
-    public Sales(Long id, String date, Representative representative, Client client, Stock stock, int quantity) {
+    public Sales(Long id, String date, Representative representative, Client client, Stock stock, double sellPrice, int quantity) {
         this.id = id;
         this.date = date;
         this.representative = representative;
         this.client = client;
         this.stock = stock;
+        this.sellPrice = sellPrice;
         this.quantity = quantity;
+    }
+
+    public double getSellPrice() {
+        return sellPrice;
+    }
+
+    public void setSellPrice(double sellPrice) {
+        this.sellPrice = sellPrice;
     }
 
     public Long getId() {

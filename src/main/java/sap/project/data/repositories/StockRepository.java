@@ -26,7 +26,7 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
     @Transactional
     List<Long> getIdLimitedQuantity();
 
-    @Query(value = "SELECT product ,color ,size FROM database66.stock where id=:id", nativeQuery = true)
+    @Query(value = "SELECT product,id,price FROM database66.stock where id=:id", nativeQuery = true)
     @Transactional
     String getDetailsById(@Param("id") long id);
 }
